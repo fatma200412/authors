@@ -49,7 +49,6 @@ interface Authors {
 
 const Authors = (props: Props) => {
   const [authorsData, setAuthorsData] = useState<Authors[]>([]);
-
   const getData = async () => {
     const db = getFirestore(app);
 
@@ -76,6 +75,7 @@ const Authors = (props: Props) => {
   useEffect(() => {
     getData();
   }, []);
+  //  export getData()
 
   return (
     <>
@@ -123,7 +123,7 @@ const Authors = (props: Props) => {
               return (
                 <Grid key={i} item xs={4}>
                   <Card sx={{ maxWidth: 345 }}>
-                    <CardActionArea>
+                    <CardActionArea href={`/pages/authors/${author.id}`}>
                       <CardMedia
                         component="img"
                         height="140"
@@ -142,7 +142,20 @@ const Authors = (props: Props) => {
                       </CardContent>
                     </CardActionArea>
                     <div className="text-center mb-5">
-                      <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                      <button
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                        onClick={() => {
+                          const deleteUserData = async () => {
+                            const db = getFirestore(app);
+
+                            await deleteDoc(doc(db, "authors", author.id));
+                          };
+                          deleteUserData();
+                          setAuthorsData(
+                            authorsData.filter((elem) => elem.id != author.id)
+                          );
+                        }}
+                      >
                         DELETE
                       </button>
                     </div>
