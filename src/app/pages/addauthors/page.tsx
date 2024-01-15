@@ -138,6 +138,7 @@ const AddAuthors = (props: Props) => {
             }}
           />
           <button type="submit">Add</button>
+          <br />
         </form>
       </Box>
     </>
